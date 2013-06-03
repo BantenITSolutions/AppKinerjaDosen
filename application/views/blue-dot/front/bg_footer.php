@@ -2,7 +2,7 @@
   </div></td>
     </tr>
   </table>  <div id="MainSearch">
-  <div id="MainSearchCont"><div id="MainVisitor"><strong>Statistik Pengunjung :</strong> Hari Ini : <strong>1</strong> | Total : <strong>48</strong></div>
+  <div id="MainSearchCont"><div id="MainVisitor"></div>
 <div id="MainSearch2">
 </div>
 <br /><br />

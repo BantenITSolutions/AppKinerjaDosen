@@ -7,12 +7,14 @@
 <meta name="description" content="Samas adalah akronim dari Sekretariat Bersama Sepeda yang secara harfiah berarti bersatu-(artikan sebagai: tidak hanya sekadar bergabung)-nya klub-klub sepeda se Denpasar dan sekitarnya dalam satu payung komunitas sepeda yang bermana Samas Denpasar." />
 <meta name="keywords" content="samas, komunitas, sepeda, bali" />
 <link href="<?php echo base_url(); ?>asset/theme/<?php echo $GLOBALS['site_theme']; ?>/css/samas.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url(); ?>asset/theme/<?php echo $GLOBALS['site_theme']; ?>/css/chat.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url(); ?>asset/theme/<?php echo $GLOBALS['site_theme']; ?>/css/menu.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/theme/<?php echo $GLOBALS['site_theme']; ?>/scripts/menu.js"></script>
 <script src="<?php echo base_url(); ?>asset/theme/<?php echo $GLOBALS['site_theme']; ?>/scripts/swfobject_modified.js" type="text/javascript"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/theme/<?php echo $GLOBALS['site_theme']; ?>/banner/nivo-slider.css" type="text/css" media="screen" />
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/theme/<?php echo $GLOBALS['site_theme']; ?>/banner/jquery-1.4.3.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/theme/<?php echo $GLOBALS['site_theme']; ?>/banner/jquery.nivo.slider.pack.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/theme/<?php echo $GLOBALS['site_theme']; ?>/js/chat.js"></script>
 <script type="text/javascript">
     $(window).load(function() {
         $('#slider').nivoSlider();
@@ -26,6 +28,52 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 }
 //-->
 </script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var docked = 0;
+            
+            $("#dock li ul").height($(window).height());
+            
+            $("#dock .dock").click(function(){
+                $(this).parent().parent().addClass("docked").removeClass("free");
+                
+                docked += 1;
+                var dockH = ($(window).height()) / docked
+                var dockT = 0;               
+                
+                $("#dock li ul.docked").each(function(){
+                    $(this).height(dockH).css("top", dockT + "px");
+                    dockT += dockH;
+                });
+                $(this).parent().find(".undock").show();
+                $(this).hide();
+            });
+            
+             $("#dock .undock").click(function(){
+                $(this).parent().parent().addClass("free").removeClass("docked")
+                    .animate({left:"-180px"}, 200).height($(window).height()).css("top", "0px");
+                
+                docked = docked - 1;
+                var dockH = ($(window).height()) / docked
+                var dockT = 0;               
+                
+                $("#dock li ul.docked").each(function(){
+                    $(this).height(dockH).css("top", dockT + "px");
+                    dockT += dockH;
+                });
+                $(this).parent().find(".dock").show();
+                $(this).hide();
+            });
+
+            $("#dock li").hover(function(){
+                $(this).find("ul").animate({left:"40px"}, 200);
+            }, function(){
+                $(this).find("ul.free").animate({left:"-180px"}, 200);
+           });
+        }); 
+    </script>
+
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/theme/<?php echo $GLOBALS['site_theme']; ?>/colorbox/colorbox.css" />
 <script>!window.jQuery && document.write('<script src="<?php echo base_url(); ?>asset/<?php echo $GLOBALS['site_theme']; ?>/theme/<?php echo $GLOBALS['site_theme']; ?>/colorbox/jquery.min.js"><\/script>');</script>
 <script src="<?php echo base_url(); ?>asset/colorbox/jquery.colorbox.js"></script>
@@ -56,7 +104,6 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 .', '.tgl_indo(gmdate("Y-m-d", time()+60*60*7)).' - '.gmdate("H:i:s", time()+60*60*7);  ?></div>
 <div id="BtnReg">
 
-<a href="<?php echo base_url(); ?>auth/registrasi"><img src="<?php echo base_url(); ?>asset/images/btn-reg-anggota.gif" alt="daftar anggota samas" width="112" height="20" border="0" style="float:right; padding-top:3px; margin-right:10px;" /></a>
 
 </div>
 

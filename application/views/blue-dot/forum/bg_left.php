@@ -1,8 +1,34 @@
+<?php if($this->session->userdata("logged_in")!="") { ?>
+<ul id="dock">
+    <li id="links">
+        <ul class="map_buttons">
+            <li class="header">
+              Online Chat
+              <a href="#" class="dock">+ Dock</a><a href="#" class="undock">- Undock</a></li>
+            <div id="pane3" class="scroll-pane">
+              <?php
+                $where['kode_user'] = $this->session->userdata("kode_user");
+                $get = $this->db->where_not_in("kode_user",$where)->get("dlmbg_user");
+                foreach($get->result() as $g)
+                {
+              ?>
+                    <li><a href='javascript:void(0)' onClick="javascript:chatWith('<?php echo $g->username; ?>')"><?php echo $g->nama_user; ?></a></li>
+              <?php } ?>
+            </div>
+        </ul>
+    </li>
+</ul>
+<?php } ?>
+
+
 <table width="990" border="0" align="center" cellpadding="0" cellspacing="0" id="MainContent">
   <tr>
     <td width="260" valign="top" class="LeftBg">
 	<div id="LeftContent">
-<div id="LeftContent">
+<div class="TabBgLeft"><span class="YellowTxt">SAMAS&nbsp;</span><span class="WhiteTxt">FORUM</span></div>
+<div id="LeftContent"><div style="font-size:12px; text-align:center; position:relative; padding:15px;">Silahkan manfaatkan fasilitas forum untuk berdiskusi dengan sesama anggota<br />
+    <br />
+    <a href="<?php echo base_url(); ?>forum"><img src="<?php echo base_url(); ?>asset/theme/<?php echo $GLOBALS['site_theme']; ?>/images/join-btn.gif" alt="join forum komunitas sepeda bali" width="157" height="47" border="0" /></a><br /></div>
 	    <div class="TabBgLeft"><span class="YellowTxt">LOGIN&nbsp;</span><span class="WhiteTxt">ANGGOTA</span></div>
     <div class="PaddingLeftCont">
       <?php
@@ -11,7 +37,8 @@
       ?>
       <table width="100%" cellpadding="3">
       <tr><td colspan="2"><div style="font-size:13px;">Welcome, <strong><?php echo $this->session->userdata('nama_user_login'); ?>.</strong></div></td></tr>
-      <tr><td><div class="border-photo-profil"><div class="hide-photo-profil-medium"><img src="<?php echo tampil_gravatar($this->session->userdata('gbr')); ?>" width="90" /></div></div> </td><td>
+      <tr><td><div class="border-photo-profil"><div class="hide-photo-profil-medium">
+        <img src="<?php echo tampil_gravatar($this->session->userdata("gbr")); ?>" width="90" /></div></div> </td><td>
       <table>
         <tr><td><div id="btn-poll">
         <a href="<?php echo base_url(); ?>global/profil"><div class="link-tombol" style="width:70px; text-align:center;">Profil</div></a>
@@ -44,6 +71,27 @@
             </div>
           </td>
         </tr>
+        <tr>
+          <td colspan="2">
+          <div class="cleaner_h10"></div>
+          <div class="line-grey"></div>
+          <div class="cleaner_h5"></div>
+          </td>
+        </tr>
+        <?php
+          if($this->session->userdata('level')=="admin")
+          {
+            ?>
+        <tr>
+          <td>
+            <div id="btn-poll">
+              <a href="<?php echo base_url(); ?>admin"><div class="link-tombol" style="width:178px; text-align:center;">Dashboard Admin</div></a>
+            </div>
+          </td>
+        </tr>
+            <?php
+          }
+        ?>
       </table>
       
       </td></tr>

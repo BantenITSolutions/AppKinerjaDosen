@@ -11,6 +11,7 @@ class berita extends CI_Controller {
 	function detail($id_param=0)
 	{
 		$d['menu'] = $this->app_global_web->generate_index_menu();
+		$d['banner_gallery'] = $this->app_global_web->generate_banner_gallery();
 		$where['id_berita'] = $id_param;
 		$get_data = $this->db->get_where("dlmbg_berita",$where);
 		$d['banner_berita'] = $this->app_global_web->generate_banner_berita(2);

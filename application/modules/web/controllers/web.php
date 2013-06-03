@@ -14,6 +14,7 @@ class web extends CI_Controller {
 		$d['last_update'] = $this->app_global_forum->generate_index_last_update($GLOBALS['site_limit_small']);
 		$d['banner_berita'] = $this->app_global_web->generate_banner_berita(2);
 		$d['home_berita'] = $this->app_global_web->generate_home_berita(3,2);
+		$d['banner_gallery'] = $this->app_global_web->generate_banner_gallery();
 		
  		$this->load->view($GLOBALS['site_theme']."/front/bg_header",$d);
  		$this->load->view($GLOBALS['site_theme']."/front/bg_banner");
@@ -27,6 +28,7 @@ class web extends CI_Controller {
 	{
 		$where['id_menu'] = $id_param;
 		$get_data = $this->db->get_where("dlmbg_menu",$where);
+		$d['banner_gallery'] = $this->app_global_web->generate_banner_gallery();
 		$d['banner_berita'] = $this->app_global_web->generate_banner_berita(2);
 		if($get_data->num_rows()>0)
 		{

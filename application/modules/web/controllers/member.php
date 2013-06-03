@@ -11,6 +11,7 @@ class member extends CI_Controller {
 	function index($uri=0)
 	{
 		$d['menu'] = $this->app_global_web->generate_index_menu();
+		$d['banner_gallery'] = $this->app_global_web->generate_banner_gallery();
 		$d['dt_retrieve'] = $this->app_global_web->generate_index_member($GLOBALS['site_limit_medium'],$uri);
 		$d['banner_berita'] = $this->app_global_web->generate_banner_berita(2);
 

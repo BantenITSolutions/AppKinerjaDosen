@@ -19,9 +19,11 @@
 		<div id="sidebar">
 			<a href="<?php echo base_url(); ?>" class="visible-phone"><i class="icon icon-th-list"></i> Dashboard Menu</a>
 			<ul>
+				<li><a href="<?php echo base_url(); ?>"><i class="icon icon-star"></i> <span>Halaman Utama</span></a></li>
 				<li><a href="<?php echo base_url(); ?>app_route"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
 				<li><a href="<?php echo base_url(); ?>admin/dosen"><i class="icon icon-flag"></i> <span>Daftar Dosen</span></a></li>
 				<li><a href="<?php echo base_url(); ?>admin/banner"><i class="icon icon-picture"></i> <span>Slide Banner</span></a></li>
+				<li><a href="<?php echo base_url(); ?>admin/berita"><i class="icon icon-list-alt"></i> <span>Berita</span></a></li>
 				<li><a href="<?php echo base_url(); ?>admin/kategori_forum"><i class="icon icon-tasks"></i> <span>Kategori Forum</span></a></li>
 				<li><a href="<?php echo base_url(); ?>admin/thread_forum"><i class="icon icon-comment"></i> <span>Thread Forum</span></a></li>
 				<li><a href="<?php echo base_url(); ?>admin/reply_forum"><i class="icon icon-retweet"></i> <span>Reply Forum</span></a></li>

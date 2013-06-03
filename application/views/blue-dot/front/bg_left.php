@@ -1,3 +1,26 @@
+<?php if($this->session->userdata("logged_in")!="") { ?>
+<ul id="dock">
+    <li id="links">
+        <ul class="map_buttons">
+            <li class="header">
+              Online Chat
+              <a href="#" class="dock">+ Dock</a><a href="#" class="undock">- Undock</a></li>
+            <div id="pane3" class="scroll-pane">
+              <?php
+                $where['kode_user'] = $this->session->userdata("kode_user");
+                $get = $this->db->where_not_in("kode_user",$where)->get("dlmbg_user");
+                foreach($get->result() as $g)
+                {
+              ?>
+                    <li><a href='javascript:void(0)' onClick="javascript:chatWith('<?php echo $g->username; ?>')"><?php echo $g->nama_user; ?></a></li>
+              <?php } ?>
+            </div>
+        </ul>
+    </li>
+</ul>
+<?php } ?>
+
+
 <table width="990" border="0" align="center" cellpadding="0" cellspacing="0" id="MainContent">
   <tr>
     <td width="260" valign="top" class="LeftBg">

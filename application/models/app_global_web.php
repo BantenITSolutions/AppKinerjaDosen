@@ -246,6 +246,19 @@ class app_global_web extends CI_Model {
 		return $hasil;
 	}
 
+	public function generate_banner_gallery()
+	{
+		$w = $this->db->order_by("id_banner","DESC")->get("dlmbg_banner");
+		
+		$hasil = "";
+				
+		foreach($w->result() as $h)
+		{
+			$hasil .= '<img src="'.base_url().'asset/banner/'.$h->gbr.'" width="583" height="314" title="'.$h->judul.'"/> ';
+		}
+		return $hasil;
+	}
+
 	public function generate_banner_berita($limit)
 	{
 		$w = $this->db->order_by("id_berita","DESC")->get("dlmbg_berita",$limit,0);
@@ -257,7 +270,7 @@ class app_global_web extends CI_Model {
 			$hasil .= '<span class="WhiteTxt3">Posted on '.$h->tgl_post.' - '.$h->jam_post.'</span>
 			<strong><span class="YellowTxt"><div class="padding-tittle">'.$h->judul.'</div>
 			</span></strong>
-			'.strip_tags(substr($h->isi,0,150)).'
+			'.strip_tags(substr($h->isi,0,250)).'
 			<a href="'.base_url().'web/berita/detail/'.$h->id_berita.'" title="'.$h->judul.'"><strong>read more</strong></a><br /><div class="line-green2"></div>';
 		}
 		return $hasil;

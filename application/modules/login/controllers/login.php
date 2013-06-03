@@ -40,6 +40,8 @@ class login extends CI_Controller {
 		if($this->session->userdata("logged_in")!="")
 		{
  			$this->session->sess_destroy();
+ 			session_start();
+ 			session_destroy();
 			redirect(base_url());
 		}
 	}

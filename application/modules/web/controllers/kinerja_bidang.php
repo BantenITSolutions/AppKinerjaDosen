@@ -12,6 +12,7 @@ class kinerja_bidang extends CI_Controller {
 	{
 		$d['bidang'] = $param;
 		$d['menu'] = $this->app_global_web->generate_index_menu();
+		$d['banner_gallery'] = $this->app_global_web->generate_banner_gallery();
 		$d['banner_berita'] = $this->app_global_web->generate_banner_berita(2);
 		$d['dt_retrieve'] = $this->app_global_web->generate_index_kinerja_bidang($param,$GLOBALS['site_limit_medium'],$uri);
 
@@ -26,6 +27,7 @@ class kinerja_bidang extends CI_Controller {
 	{
 		$d['bidang'] = $bidang;
 		$d['menu'] = $this->app_global_web->generate_index_menu();
+		$d['banner_gallery'] = $this->app_global_web->generate_banner_gallery();
 		$d['banner_berita'] = $this->app_global_web->generate_banner_berita(2);
 		$d['dt_retrieve'] = $this->app_global_web->generate_detail_kinerja_bidang($bidang,$param);
 

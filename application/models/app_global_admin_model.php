@@ -433,4 +433,136 @@ class app_global_admin_model extends CI_Model {
 		return $hasil;
 	}
 	 
+	public function generate_index_berita($limit,$offset)
+	{
+		$hasil="";
+		$tot_hal = $this->db->get("dlmbg_berita");
+
+		$config['base_url'] = base_url() . 'admin/berita/index/';
+		$config['total_rows'] = $tot_hal->num_rows();
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 4;
+		$config['first_link'] = 'First';
+		$config['last_link'] = 'Last';
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Prev';
+		$this->pagination->initialize($config);
+
+		$w = $this->db->get("dlmbg_berita",$limit,$offset);
+		
+		$hasil .= "<table class='table table-striped table-condensed'>
+					<thead>
+					<tr>
+					<th>No.</th>
+					<th>Judul</th>
+					<th width='160'><a href='".base_url()."admin/berita/tambah' class='btn btn-small btn-success'><i class='icon-plus-sign'></i> Tambah Data</a></th>
+					</tr>
+					</thead>";
+		$i = $offset+1;
+		foreach($w->result() as $h)
+		{
+			$hasil .= "<tr>
+					<td>".$i."</td>
+					<td>".$h->judul."</td>
+					<td>";
+			$hasil .= "<a href='".base_url()."admin/berita/edit/".$h->id_berita."' class='btn btn-small btn-inverse'><i class='icon-edit'></i> Edit</a> ";
+			$hasil .= "<a href='".base_url()."admin/berita/hapus/".$h->id_berita."' onClick=\"return confirm('Are you sure?');\" class='btn btn-small btn-danger'><i class='icon-trash'></i> Hapus</a></td>
+					</tr>";
+			$i++;
+		}
+		$hasil .= '</table>';
+		$hasil .= '<div class="cleaner_h20"></div>';
+		$hasil .= $this->pagination->create_links();
+		return $hasil;
+	}
+	 
+	public function generate_index_thread_forum($limit,$offset)
+	{
+		$tot_hal = $this->db->get("dlmbg_thread_forum");
+
+		$config['base_url'] = base_url() . 'forum/my_thread/index/';
+		$config['total_rows'] = $tot_hal->num_rows();
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 4;
+		$config['first_link'] = 'First';
+		$config['last_link'] = 'Last';
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Prev';
+		$this->pagination->initialize($config);
+
+		$w = $this->db->query("select d.nama_kategori, a.id_forum,a.isi,a.hitung,post_date,a.judul,b.username,count(c.id_reply_forum) as hit, a.last_date from dlmbg_thread_forum as a left join (select username,kode_user from dlmbg_user) as b on a.id_anggota=b.kode_user left join dlmbg_reply_forum as c on a.id_forum=c.id_forum left join dlmbg_kategori d on a.id_kategori=d.id_kategori group by a.id_forum DESC order by a.last_date DESC LIMIT ".$offset.",".$limit." ");
+		
+		$hasil = "";
+				
+		foreach($w->result() as $h)
+		{
+			$hasil .= '<table width="100%" border="0" cellspacing="0" cellpadding="10" bgcolor="#cbe6ff">
+						<tr>
+						  <td width="450">
+						  <span class="date-txt2">';
+			$pecah = explode("-",substr($h->post_date,0,10)); 
+			$hasil .= 'Kategori : '.$h->nama_kategori.'</span>
+						  <div class="cleaner_h0"></div>
+						  <strong><span class="h1-black"><a href="'.base_url().'forum/forum/detail/'.$h->id_forum.'" title="'.$h->judul.'">
+						  '.substr($h->judul,0,50).'...</a></span></strong>
+						  <div class="cleaner_h0"></div>
+						  </td>
+						  <td align="right" width="60">'.$h->hitung.' views</td>
+						  <td align="right">'.$h->last_date.'</td>';
+
+			$hasil .= "<td align='right'><a href='".base_url()."admin/thread_forum/hapus/".$h->id_forum."' onClick=\"return confirm('Are you sure?');\" class='btn btn-small btn-danger'><i class='icon-trash'></i> Hapus</a></td>
+						</tr>
+		      		</table>";
+		
+		}
+		$hasil .= $this->pagination->create_links();
+		return $hasil;
+	}
+	 
+	public function generate_index_reply_forum($limit,$offset)
+	{
+		$tot_hal = $this->db->get("dlmbg_reply_forum");
+
+		$config['base_url'] = base_url() . 'forum/my_reply/index/';
+		$config['total_rows'] = $tot_hal->num_rows();
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 4;
+		$config['first_link'] = 'First';
+		$config['last_link'] = 'Last';
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Prev';
+		$this->pagination->initialize($config);
+
+		$w = $this->db->query("select b.kode_user, c.judul as judul_post, a.id_forum,a.id_reply_forum,a.isi,c.last_date,a.tanggal,a.waktu,a.judul,b.nama_user,b.username from dlmbg_reply_forum as a inner join (select nama_user,kode_user,gbr,level,username from dlmbg_user) as b on a.id_anggota=b.kode_user inner join dlmbg_thread_forum c on a.id_forum=c.id_forum order by a.tanggal,a.waktu ASC LIMIT ".$offset.",".$limit." ");
+		
+		$hasil = "";
+				
+		foreach($w->result() as $h)
+		{
+			$hasil .= '<table width="100%" border="0" cellspacing="0" cellpadding="5" class="alert alert-success" bgcolor="#cbe6ff">
+						<tr>
+						  <td width="450">
+						  <span class="date-txt2">';
+			$hasil .= '<div class="cleaner_h0"></div>
+						  <strong><span class="h1-black"><a href="'.base_url().'forum/forum/detail/'.$h->id_forum.'" title="'.$h->judul.'">
+						  '.substr($h->judul,0,50).'...</a></span></strong>
+						  <div class="cleaner_h0"></div>
+						  '.strip_tags(substr($h->isi,0,100)).'...
+						  </td>
+						  <td align="right"><span class="label">'.$h->last_date.'</span><br><span class="label label-info">'.$h->nama_user.'</span></td>';
+
+
+			$hasil .= "<td align='right'><a href='".base_url()."admin/reply_forum/hapus/".$h->id_reply_forum."' onClick=\"return confirm('Are you sure?');\" class='btn btn-small btn-danger'><i class='icon-trash'></i> Hapus</a></td>
+						</tr>";
+			$hasil .= '<tr>
+						  <td align="left"><span class="label label-important">Forum : '.$h->judul_post.'</span></td>
+						</tr>
+						<tr>
+		      		</table>';
+		
+		}
+		$hasil .= $this->pagination->create_links();
+		return $hasil;
+	}
+	 
 }

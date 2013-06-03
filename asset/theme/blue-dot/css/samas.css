@@ -247,3 +247,35 @@ float:right;
 border:1px solid #000000;
 cursor:pointer;
 }
+
+        #dock{margin:0px; padding:0px; list-style:none; position:fixed; top:0px; height:100%; 
+              z-index:100; background-color:#f0f0f0; left:0px;}
+        #dock > li {width:40px; height:100%; margin: 0 0 1px 0; background-color:#dcdcdc;
+                      background-image:url(../images/bg-side.png); background-position:left center;}
+        
+        #dock #links {background-image:url(../images/bg-side.png);background-repeat:repeat;}
+
+        
+        /* panels */
+        #dock ul li {padding:5px; border: solid 1px #F1F1F1;}
+        #dock ul li:hover {background:#D3DAED url(item_bkg.png) repeat-x; border: solid 1px #A8D8EB;}
+        #dock ul li.header, #dock ul li .header:hover {background:#D3DAED url(header_bkg.png) repeat-x;border: solid 1px #F1F1F1;}
+      
+        #dock > li:hover ul {display:block;}
+        #dock > li ul {position:absolute; top:0px; left:-180px;  z-index:-1;width:180px; display:none;
+                       background-color:#F1F1F1; border:solid 1px #969696; padding:0px; margin:0px; list-style:none;}
+        #dock > li ul.docked { display:block;z-index:-2;}
+        
+        .dock,.undock{float:right;}
+       .undock {display:none;}
+
+.scroll-pane {
+	width: 180px;
+	height: 100%;
+	overflow: auto;
+	background: #ccc;
+	float: left;
+}
+#pane3 {
+	height: 100%;
+}
