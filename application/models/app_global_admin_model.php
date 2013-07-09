@@ -196,6 +196,98 @@ class app_global_admin_model extends CI_Model {
 		return $hasil;
 	}
 
+	public function generate_index_dosen_cetak($limit,$offset)
+	{
+		$i = $offset+1;
+		$tot_hal = $this->db->get("dlmbg_dosen");
+
+		$config['base_url'] = base_url() . 'admin/cetak/index/';
+		$config['total_rows'] = $tot_hal->num_rows();
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 4;
+		$config['first_link'] = 'First';
+		$config['last_link'] = 'Last';
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Prev';
+		$this->pagination->initialize($config);
+		
+		$w = $this->db->get("dlmbg_dosen",$limit,$offset);
+		
+		$hasil = "";
+		$hasil .= "<table class='table table-striped table-condensed'>
+				<thead>
+				<tr class='warning'>
+				<td width='30'><b>No.</b></td>
+				<td><b>Nama</b></td>
+				<td><b>NIP</b></td>
+				<td><b>Email</b></td>
+				<td><b>Foto</b></td>
+				<td width='150'></td>
+				</tr>
+				</thead>";
+				
+		foreach($w->result() as $h)
+		{
+			$gbr = "no-image.jpg";
+			if($h->gambar!="")
+			{
+				$gbr = $h->gambar;
+			}
+			$hasil .= "<tr><td>".$i." </td><td>".$h->nama." </td><td>".$h->nip." </td><td>".$h->email." </td>
+			<td><img src='".base_url()."asset/foto-dosen/".$gbr."' width='50'> </td>
+			<td><a href='".base_url()."admin/cetak/detail/".$h->id_dosen."' class='btn btn-warning btn-small'>
+			<i class='icon-edit'></i> Cetak</a>";
+			
+			$hasil .= "</td></tr>";
+			$i++;
+		}
+		
+		$hasil .= "</table>";
+		$hasil .= $this->pagination->create_links();
+		return $hasil;
+	}
+
+	public function generate_index_dosen_cetak_detail($param)
+	{
+		$i = 1;
+		$id_param['id_dosen'] = $param;
+		
+		$hasil = "";
+		$hasil .= "<table class='table table-striped table-condensed'>
+				<thead>
+				<tr class='warning'>
+				<td><b>No.</b></td>
+				<td><b>Jenis Kegiatan</b></td>
+				<td><b>Bukti Penugasan</b></td>
+				<td><b>SKS Penugasan</b></td>
+				<td><b>Masa Penugasan</b></td>
+				<td><b>Bukti Dokumen</b></td>
+				<td><b>SKS Dokumen</b></td>
+				<td><b>Jenis Kinerja</b></td>
+				</tr>
+				</thead>";
+				
+		$w = $this->db->get_where("dlmbg_kinerja",$id_param);
+				
+		foreach($w->result() as $h)
+		{
+			$hasil .= "<tr>
+			<td>".$h->nomor." </td>
+			<td>".$h->jenis_kegiatan." </td>
+			<td>".$h->bukti_penugasan." </td>
+			<td>".$h->sks_penugasan." </td>
+			<td>".$h->masa_penugasan." </td>
+			<td>".$h->bukti_dokumen." </td>
+			<td>".$h->sks_dokumen." </td>
+			<td>".$h->jenis_kinerja." </td>
+			</tr>";
+			$i++;
+		}
+		
+		$hasil .= "</table>";
+		return $hasil;
+	}
+
 	public function generate_index_kinerja_bidang($bidang,$limit,$offset)
 	{
 		$i = $offset+1;
