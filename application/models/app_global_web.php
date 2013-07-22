@@ -350,4 +350,167 @@ class app_global_web extends CI_Model {
 		return $hasil;
 	}
 
+
+
+
+
+
+	public function generate_index_cari_dosen($limit,$offset)
+	{
+		$i = $offset+1;
+		$cari['nama'] = $this->session->userdata("cari_data");
+		$tot_hal = $this->db->like($cari)->get_where("dlmbg_dosen",$cari);
+
+		$config['base_url'] = base_url() . 'web/dosen/index/';
+		$config['total_rows'] = $tot_hal->num_rows();
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 4;
+		$config['first_link'] = 'First';
+		$config['last_link'] = 'Last';
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Prev';
+		$this->pagination->initialize($config);
+		
+		$w = $this->db->like($cari)->get("dlmbg_dosen",$limit,$offset);
+		
+		$hasil = "";
+		$hasil .= "<table cellpadding='8' cellspacing='0' style='border-collapse:collapse; width:100%;' border='1'>
+				<thead>
+				<tr class='warning'>
+				<td width='30'><b>No.</b></td>
+				<td><b>Nama</b></td>
+				<td><b>NIP</b></td>
+				<td><b>Email</b></td>
+				<td><b>Foto</b></td>
+				<td>Cek Detail</td>
+				</tr>
+				</thead>";
+				
+		foreach($w->result() as $h)
+		{
+			$gbr = "no-image.jpg";
+			if($h->gambar!="")
+			{
+				$gbr = $h->gambar;
+			}
+			$hasil .= "<tr><td>".$i." </td><td>".$h->nama." </td><td>".$h->nip." </td><td>".$h->email." </td>
+			<td><img src='".base_url()."asset/foto-dosen/".$gbr."' width='50'> </td>
+			<td><a href='".base_url()."web/dosen/detail/".$h->id_dosen."' class='input-button'>
+			<i class='icon-edit'></i> Detail</a>";
+			
+			$hasil .= "</td></tr>";
+			$i++;
+		}
+		
+		$hasil .= "</table>";
+		//$hasil .= $this->pagination->create_links();
+		return $hasil;
+	}
+
+	public function generate_index_cari_kinerja($limit,$offset)
+	{
+		$i = $offset+1;
+		$cari['jenis_kegiatan'] = $this->session->userdata("cari_data");
+		
+		$this->db->like($cari)->select("*")->join("dlmbg_dosen","dlmbg_kinerja.id_dosen=dlmbg_dosen.id_dosen");
+		$tot_hal = $this->db->get("dlmbg_kinerja");
+
+		$config['base_url'] = base_url() . 'web/kinerja_bidang/set/'.$cari.'/';
+		$config['total_rows'] = $tot_hal->num_rows();
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 5;
+		$config['first_link'] = 'First';
+		$config['last_link'] = 'Last';
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Prev';
+		$this->pagination->initialize($config);
+		
+		$this->db->select("*")->join("dlmbg_dosen","dlmbg_kinerja.id_dosen=dlmbg_dosen.id_dosen");
+		$w = $this->db->like($cari)->get("dlmbg_kinerja",$limit,$offset);
+		
+		$hasil = "";
+		$hasil .= "<table cellpadding='8' cellspacing='0' style='border-collapse:collapse; width:100%;' border='1'>
+				<thead>
+				<tr class='warning'>
+				<td width='30'><b>No.</b></td>
+				<td><b>Nama</b></td>
+				<td><b>Jenis Kegiatan</b></td>
+				<td><b>SKS</b></td>
+				<td><b>Masa Penugasan</b></td>
+				<td>Cek Detail</td>
+				</tr>
+				</thead>";
+				
+		foreach($w->result() as $h)
+		{
+			$gbr = "no-image.jpg";
+			if($h->gambar!="")
+			{
+				$gbr = $h->gambar;
+			}
+			$hasil .= "<tr><td>".$i." </td><td>".$h->nama." </td><td>".$h->jenis_kegiatan." </td><td>".$h->sks_penugasan." </td><td>".$h->masa_penugasan." </td>
+			<td><a href='".base_url()."web/kinerja_bidang/detail/".$cari."/".$h->id_kinerja."' class='input-button'>
+			<i class='icon-edit'></i> Detail</a>";
+			
+			$hasil .= "</td></tr>";
+			$i++;
+		}
+		
+		$hasil .= "</table>";
+		//$hasil .= $this->pagination->create_links();
+		return $hasil;
+	}
+
+	public function generate_index_cari_member($limit,$offset)
+	{
+		$i = $offset+1;
+		$cari['nama_user'] = $this->session->userdata("cari_data");
+		$tot_hal = $this->db->like($cari)->get("dlmbg_user");
+
+		$config['base_url'] = base_url() . 'web/member/index/';
+		$config['total_rows'] = $tot_hal->num_rows();
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 4;
+		$config['first_link'] = 'First';
+		$config['last_link'] = 'Last';
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Prev';
+		$this->pagination->initialize($config);
+		
+		$w = $this->db->like($cari)->get("dlmbg_user",$limit,$offset);
+		
+		$hasil = "";
+		$hasil .= "<table cellpadding='8' cellspacing='0' style='border-collapse:collapse; width:100%;' border='1'>
+				<thead>
+				<tr class='warning'>
+				<td width='30'><b>No.</b></td>
+				<td><b>Nama</b></td>
+				<td><b>Level</b></td>
+				<td><b>Username</b></td>
+				<td><b>Foto</b></td>
+				<td>Kirim Pesan</td>
+				</tr>
+				</thead>";
+				
+		foreach($w->result() as $h)
+		{
+			$gbr = "no-img.jpg";
+			if($h->gbr!="")
+			{
+				$gbr = $h->gbr;
+			}
+			$hasil .= "<tr><td>".$i." </td><td>".$h->nama_user." </td><td>".$h->level." </td><td>".$h->username." </td>
+			<td><img src='".base_url()."asset/gravatar-member/thumb/".$gbr."' width='50'> </td>
+			<td><a href='".base_url()."global/inbox/pesan_baru/".$h->kode_user."' class='input-button'>
+			<i class='icon-edit'></i> Kirim Pesan</a>";
+			
+			$hasil .= "</td></tr>";
+			$i++;
+		}
+		
+		$hasil .= "</table>";
+		//$hasil .= $this->pagination->create_links();
+		return $hasil;
+	}
+
 }

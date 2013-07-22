@@ -103,7 +103,10 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 
 .', '.tgl_indo(gmdate("Y-m-d", time()+60*60*7)).' - '.gmdate("H:i:s", time()+60*60*7);  ?></div>
 <div id="BtnReg">
-
+<form method="post" action="<?php echo base_url(); ?>web/search/index" style="float:right; margin:0px; padding:0px;">
+<input name="cari" type="text" size="40" placeholder="Pencarian..." class="input-teks" />
+<input type="submit" name="button" id="button" value="CARI" class="input-button" />
+</form> 
 
 </div>
 
