@@ -32,6 +32,7 @@ class dosen extends CI_Controller {
 			$d['nip'] = "";
 			$d['nidn'] = "";
 			$d['nama'] = "";
+			$d['username'] = "";
 			$d['nama_pt'] = "";
 			$d['alamat_pt'] = "";
 			$d['fakultas'] = "";
@@ -73,11 +74,13 @@ class dosen extends CI_Controller {
 		{
 			$where['id_dosen'] = $id_param;
 			$get = $this->db->get_where("dlmbg_dosen",$where)->row();
+			$get_u = $this->db->get_where("dlmbg_user",$where)->row();
 			
 			$d['no_sertifikat'] = $get->no_sertifikat;
 			$d['nip'] = $get->nip;
 			$d['nidn'] = $get->nidn;
 			$d['nama'] = $get->nama;
+			$d['username'] = $get_u->username;
 			$d['nama_pt'] = $get->nama_pt;
 			$d['alamat_pt'] = $get->alamat_pt;
 			$d['fakultas'] = $get->fakultas;
@@ -176,7 +179,11 @@ class dosen extends CI_Controller {
 						$this->image_lib->resize();
 						$this->image_lib->clear() ;
 						
-						$this->db->set('id_dosen',"REPLACE(UUID(),'-','')",FALSE); 
+
+						$id_gen = $this->db->query("SELECT REPLACE(UUID(),'-','') as hasil")->row();
+						$id_dosen_temp = $id_gen->hasil; 
+
+						$this->db->set('id_dosen',$id_dosen_temp); 
 						$this->db->set('gambar',$data['file_name']); 
 						$this->db->set("no_sertifikat",$this->input->post("no_sertifikat"));
 						$this->db->set("nip",$this->input->post("nip"));
@@ -202,6 +209,16 @@ class dosen extends CI_Controller {
 						$this->db->set("asesor2",$this->input->post("asesor2"));
 						$this->db->set("email",$this->input->post("email"));
 						$this->db->insert("dlmbg_dosen");
+
+						$this->db->set('kode_user',"REPLACE(UUID(),'-','')",FALSE); 
+						$this->db->set("username",$this->input->post("username"));
+						$this->db->set("password",md5($this->input->post("password").$GLOBALS['key_login']));
+						$this->db->set("nama_user",$this->input->post("nama"));
+						$this->db->set("level",'dosen');
+						$this->db->set('id_dosen',$id_dosen_temp); 
+						
+						$this->db->insert("dlmbg_user");
+
 						redirect("admin/dosen");
 				
 						unlink($source);
@@ -215,7 +232,10 @@ class dosen extends CI_Controller {
 				}
 				else
 				{
-					$this->db->set('id_dosen',"REPLACE(UUID(),'-','')",FALSE); 
+					$id_gen = $this->db->query("SELECT REPLACE(UUID(),'-','') as hasil")->row();
+					$id_dosen_temp = $id_gen->hasil; 
+
+					$this->db->set('id_dosen',$id_dosen_temp); 
 					$this->db->set("no_sertifikat",$this->input->post("no_sertifikat"));
 					$this->db->set("nip",$this->input->post("nip"));
 					$this->db->set("nidn",$this->input->post("nidn"));
@@ -240,6 +260,16 @@ class dosen extends CI_Controller {
 					$this->db->set("asesor2",$this->input->post("asesor2"));
 					$this->db->set("email",$this->input->post("email"));
 					$this->db->insert("dlmbg_dosen");
+
+					$this->db->set('kode_user',"REPLACE(UUID(),'-','')",FALSE); 
+					$this->db->set("username",$this->input->post("username"));
+					$this->db->set("password",md5($this->input->post("password").$GLOBALS['key_login']));
+					$this->db->set("nama_user",$this->input->post("nama"));
+					$this->db->set("level",'dosen');
+					$this->db->set('id_dosen',$id_dosen_temp); 
+					
+					$this->db->insert("dlmbg_user");
+
 					redirect("admin/dosen");
 					
 				}
@@ -272,6 +302,20 @@ class dosen extends CI_Controller {
 					$d['asesor2'] =  $this->input->post("asesor2");
 					$d['email'] =  $this->input->post("email");
 					$this->db->update("dlmbg_dosen",$d,$id);
+
+					if(empty($_POST['password']))
+					{
+						$in['username'] = $this->input->post("username");
+						$in['nama_user'] = $this->input->post("nama");
+						$this->db->update("dlmbg_user",$in,$id);
+					}
+					else
+					{
+						$in['username'] = $this->input->post("username");
+						$in['password'] = md5($this->input->post("password").$GLOBALS['key_login']);
+						$in['nama_user'] = $this->input->post("nama");
+						$this->db->update("dlmbg_user",$in,$id);
+					}
 					redirect("admin/dosen");
 				}
 				else
@@ -353,6 +397,20 @@ class dosen extends CI_Controller {
 						$d['asesor2'] =  $this->input->post("asesor2");
 						$d['email'] =  $this->input->post("email");
 						$this->db->update("dlmbg_dosen",$d,$id);
+
+						if(empty($_POST['password']))
+						{
+							$in['username'] = $this->input->post("username");
+							$in['nama_user'] = $this->input->post("nama");
+							$this->db->update("dlmbg_user",$in,$id);
+						}
+						else
+						{
+							$in['username'] = $this->input->post("username");
+							$in['password'] = md5($this->input->post("password").$GLOBALS['key_login']);
+							$in['nama_user'] = $this->input->post("nama");
+							$this->db->update("dlmbg_user",$in,$id);
+						}
 						redirect("admin/dosen");
 				
 						unlink($source);
@@ -379,6 +437,7 @@ class dosen extends CI_Controller {
 		{
 			$where['id_dosen'] = $id_param;
 			$this->db->delete("dlmbg_dosen",$where);
+			$this->db->delete("dlmbg_user",$where);
 			redirect("admin/dosen");
 		}
 		else

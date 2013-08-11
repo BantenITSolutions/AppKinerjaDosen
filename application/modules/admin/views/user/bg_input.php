@@ -37,14 +37,12 @@
 								<?php
 									$a=''; $d=''; $as=''; $d=''; $r='';
 									if($level=="admin"){$a='selected'; $d=''; $as=''; $d=''; $r='';}
-									else if($level=="dosen"){$a=''; $d='selected'; $as=''; $d=''; $r='';}
 									else if($level=="asesor"){$a=''; $d=''; $as='selected'; $d=''; $r='';}
 									else if($level=="dekan"){$a=''; $d=''; $as=''; $d='selected'; $r='';}
 									else if($level=="rektor"){$a=''; $d=''; $as=''; $d=''; $r='selected';}
 								?>
 									<select name="level">
 										<option value="admin" <?php echo $a; ?>>Admin</option>
-										<option value="dosen" <?php echo $d; ?>>Dosen</option>
 										<option value="asesor" <?php echo $as; ?>>Asesor</option>
 										<option value="dekan" <?php echo $d; ?>>Dekan</option>
 										<option value="rektor" <?php echo $r; ?>>Rektor</option>

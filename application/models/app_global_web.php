@@ -26,9 +26,10 @@ class app_global_web extends CI_Model {
 	{
 		$i = $offset+1;
 		$where['jenis_kinerja'] = $bidang;
+		$where['a.id_dosen'] = $this->session->userdata("id_dosen_kinerja");
 		
-		$this->db->select("*")->join("dlmbg_dosen","dlmbg_kinerja.id_dosen=dlmbg_dosen.id_dosen");
-		$tot_hal = $this->db->get_where("dlmbg_kinerja",$where);
+		$this->db->select("*")->join("dlmbg_dosen b","a.id_dosen=b.id_dosen");
+		$tot_hal = $this->db->get_where("dlmbg_kinerja a",$where);
 
 		$config['base_url'] = base_url() . 'web/kinerja_bidang/set/'.$bidang.'/';
 		$config['total_rows'] = $tot_hal->num_rows();
@@ -40,8 +41,8 @@ class app_global_web extends CI_Model {
 		$config['prev_link'] = 'Prev';
 		$this->pagination->initialize($config);
 		
-		$this->db->select("*")->join("dlmbg_dosen","dlmbg_kinerja.id_dosen=dlmbg_dosen.id_dosen");
-		$w = $this->db->get_where("dlmbg_kinerja",$where,$limit,$offset);
+		$this->db->select("*")->join("dlmbg_dosen b","a.id_dosen=b.id_dosen");
+		$w = $this->db->get_where("dlmbg_kinerja a",$where,$limit,$offset);
 		
 		$hasil = "";
 		$hasil .= "<table cellpadding='8' cellspacing='0' style='border-collapse:collapse; width:100%;' border='1'>
@@ -80,7 +81,7 @@ class app_global_web extends CI_Model {
 	{
 		$where['id_kinerja'] = $param;
 		
-		$this->db->select("*")->join("dlmbg_dosen","dlmbg_kinerja.id_dosen=dlmbg_dosen.id_dosen")->join("dlmbg_rekomendasi","dlmbg_kinerja.id_rekomendasi=dlmbg_rekomendasi.id_rekomendasi");
+		$this->db->select("*")->join("dlmbg_dosen","dlmbg_kinerja.id_dosen=dlmbg_dosen.id_dosen","left")->join("dlmbg_rekomendasi","dlmbg_kinerja.id_rekomendasi=dlmbg_rekomendasi.id_rekomendasi","left");
 		$w = $this->db->get_where("dlmbg_kinerja",$where);
 		
 		$hasil = "";
@@ -411,9 +412,10 @@ class app_global_web extends CI_Model {
 	{
 		$i = $offset+1;
 		$cari['jenis_kegiatan'] = $this->session->userdata("cari_data");
+		$cari['a.id_dosen'] = $this->session->userdata("id_dosen_kinerja");
 		
-		$this->db->like($cari)->select("*")->join("dlmbg_dosen","dlmbg_kinerja.id_dosen=dlmbg_dosen.id_dosen");
-		$tot_hal = $this->db->get("dlmbg_kinerja");
+		$this->db->like($cari)->select("*")->join("dlmbg_dosen b","a.id_dosen=b.id_dosen");
+		$tot_hal = $this->db->get("dlmbg_kinerja a");
 
 		$config['base_url'] = base_url() . 'web/kinerja_bidang/set/'.$cari.'/';
 		$config['total_rows'] = $tot_hal->num_rows();
@@ -425,8 +427,8 @@ class app_global_web extends CI_Model {
 		$config['prev_link'] = 'Prev';
 		$this->pagination->initialize($config);
 		
-		$this->db->select("*")->join("dlmbg_dosen","dlmbg_kinerja.id_dosen=dlmbg_dosen.id_dosen");
-		$w = $this->db->like($cari)->get("dlmbg_kinerja",$limit,$offset);
+		$this->db->select("*")->join("dlmbg_dosen b","a.id_dosen=b.id_dosen");
+		$w = $this->db->like($cari)->get("dlmbg_kinerja a",$limit,$offset);
 		
 		$hasil = "";
 		$hasil .= "<table cellpadding='8' cellspacing='0' style='border-collapse:collapse; width:100%;' border='1'>

@@ -24,6 +24,14 @@ class app_user_login_model extends CI_Model {
 				$sess_data['username'] = $qad->username;
 				$sess_data['level'] = $qad->level;
 				$sess_data['gbr'] = $qad->gbr;
+				if($qad->level=="dosen")
+				{
+					$sess_data['id_dosen_kinerja'] = $qad->id_dosen;
+				}
+				else
+				{
+					$sess_data['id_dosen_kinerja'] = "no_id";
+				}
 				
 				session_start();
 				$_SESSION['ADMIN_RS_KCFINDER']=array();

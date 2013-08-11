@@ -10,7 +10,7 @@ class app_global_admin_model extends CI_Model {
 	public function generate_index_user($limit,$offset,$filter=array())
 	{
 		$hasil="";
-		$tot_hal = $this->db->get("dlmbg_user");
+		$tot_hal = $this->db->where_not_in("level","dosen")->get("dlmbg_user");
 
 		$config['base_url'] = base_url() . 'admin/user/index/';
 		$config['total_rows'] = $tot_hal->num_rows();
@@ -22,7 +22,7 @@ class app_global_admin_model extends CI_Model {
 		$config['prev_link'] = 'Prev';
 		$this->pagination->initialize($config);
 
-		$w = $this->db->get("dlmbg_user",$limit,$offset);
+		$w = $this->db->where_not_in("level","dosen")->get("dlmbg_user",$limit,$offset);
 		
 		$hasil .= "<table class='table table-striped table-condensed'>
 					<thead>

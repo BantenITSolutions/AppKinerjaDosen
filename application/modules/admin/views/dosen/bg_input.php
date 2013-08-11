@@ -36,6 +36,16 @@
 								<div class="cleaner_h5"></div>
 								<input type="search" style="width:90%;" id="nama" name="nama" placeholder="Nama" value="<?php echo $nama; ?>" required />
 								<div class="cleaner_h10"></div>
+
+								<label for="menu">Username</label>
+								<div class="cleaner_h5"></div>
+								<input type="search" style="width:90%;" id="username" name="username" placeholder="Username" value="<?php echo $username; ?>" />
+								<div class="cleaner_h10"></div>
+								
+								<label for="menu">Password</label>
+								<div class="cleaner_h5"></div>
+								<input type="password" style="width:90%;" id="password" name="password" placeholder="Password" />
+								<div class="cleaner_h10"></div>
 								
 								<label for="menu">Nama PT</label>
 								<div class="cleaner_h5"></div>
