@@ -41,7 +41,6 @@ class kategori_forum extends CI_Controller {
  			$this->load->view("bg_header",$d);
  			$this->load->view("bg_menu");
  			$this->load->view("kategori_forum/bg_input");
- 			$this->load->view("user/bg_input");
  			$this->load->view("bg_footer");
 		}
 		else
@@ -60,20 +59,11 @@ class kategori_forum extends CI_Controller {
 			$d['nama_kategori'] = $get->nama_kategori;
 			
 			$d['id_param'] = $get->id_kategori;
-			$where['kode_user'] = $id_param;
-			$get = $this->db->get_where("dlmbg_user",$where)->row();
-			
-			$d['level'] = $get->level;
-			$d['username'] = $get->username;
-			$d['nama_user'] = $get->nama_user;
-			
-			$d['id_param'] = $get->kode_user;
 			$d['tipe'] = "edit";
 			
  			$this->load->view("bg_header",$d);
  			$this->load->view("bg_menu");
  			$this->load->view("kategori_forum/bg_input");
- 			$this->load->view("user/bg_input");
  			$this->load->view("bg_footer");
 		}
 		else

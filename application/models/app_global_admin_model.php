@@ -657,4 +657,150 @@ class app_global_admin_model extends CI_Model {
 		return $hasil;
 	}
 	 
+	public function generate_index_universitas($limit,$offset)
+	{
+		$hasil="";
+		$tot_hal = $this->db->get("dlmbg_universitas");
+
+		$config['base_url'] = base_url() . 'admin/universitas/index/';
+		$config['total_rows'] = $tot_hal->num_rows();
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 4;
+		$config['first_link'] = 'First';
+		$config['last_link'] = 'Last';
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Prev';
+		$this->pagination->initialize($config);
+
+		$w = $this->db->get("dlmbg_universitas",$limit,$offset);
+		
+		$hasil .= "<table class='table table-striped table-condensed'>
+					<thead>
+					<tr>
+					<th>No.</th>
+					<th>Nama</th>
+					<th>Alamat</th>
+					<th>Kota</th>
+					<th width='160'><a href='".base_url()."admin/universitas/tambah' class='btn btn-small btn-success'><i class='icon-plus-sign'></i> Tambah Data</a></th>
+					</tr>
+					</thead>";
+		$i = $offset+1;
+		foreach($w->result() as $h)
+		{
+			$hasil .= "<tr>
+					<td>".$i."</td>
+					<td>".$h->nama."</td>
+					<td>".$h->alamat."</td>
+					<td>".$h->kota."</td>
+					<td>";
+			$hasil .= "<a href='".base_url()."admin/universitas/edit/".$h->id_universitas."' class='btn btn-small btn-inverse'><i class='icon-edit'></i> Edit</a> ";
+			$hasil .= "<a href='".base_url()."admin/universitas/hapus/".$h->id_universitas."' onClick=\"return confirm('Are you sure?');\" class='btn btn-small btn-danger'><i class='icon-trash'></i> Hapus</a></td>
+					</tr>";
+			$i++;
+		}
+		$hasil .= '</table>';
+		$hasil .= '<div class="cleaner_h20"></div>';
+		$hasil .= $this->pagination->create_links();
+		return $hasil;
+	}
+	 
+	public function generate_index_fakultas($limit,$offset)
+	{
+		$hasil="";
+		$tot_hal = $this->db->get("dlmbg_fakultas");
+
+		$config['base_url'] = base_url() . 'admin/fakultas/index/';
+		$config['total_rows'] = $tot_hal->num_rows();
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 4;
+		$config['first_link'] = 'First';
+		$config['last_link'] = 'Last';
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Prev';
+		$this->pagination->initialize($config);
+		
+		$this->db->select("*")->join("dlmbg_universitas","dlmbg_universitas.id_universitas=dlmbg_fakultas.id_universitas");
+		$w = $this->db->get("dlmbg_fakultas",$limit,$offset);
+		
+		$hasil .= "<table class='table table-striped table-condensed'>
+					<thead>
+					<tr>
+					<th>No.</th>
+					<th>Nama</th>
+					<th>Universitas</th>
+					<th>Nama Dekan</th>
+					<th>Kota</th>
+					<th width='160'><a href='".base_url()."admin/fakultas/tambah' class='btn btn-small btn-success'><i class='icon-plus-sign'></i> Tambah Data</a></th>
+					</tr>
+					</thead>";
+		$i = $offset+1;
+		foreach($w->result() as $h)
+		{
+			$hasil .= "<tr>
+					<td>".$i."</td>
+					<td>".$h->nama_fakultas."</td>
+					<td>".$h->nama."</td>
+					<td>".$h->nama_dekan."</td>
+					<td>".$h->kota."</td>
+					<td>";
+			$hasil .= "<a href='".base_url()."admin/fakultas/edit/".$h->id_fakultas."' class='btn btn-small btn-inverse'><i class='icon-edit'></i> Edit</a> ";
+			$hasil .= "<a href='".base_url()."admin/fakultas/hapus/".$h->id_fakultas."' onClick=\"return confirm('Are you sure?');\" class='btn btn-small btn-danger'><i class='icon-trash'></i> Hapus</a></td>
+					</tr>";
+			$i++;
+		}
+		$hasil .= '</table>';
+		$hasil .= '<div class="cleaner_h20"></div>';
+		$hasil .= $this->pagination->create_links();
+		return $hasil;
+	}
+
+	public function generate_index_dosen_kesimpulan($limit,$offset)
+	{
+		$i = $offset+1;
+		$tot_hal = $this->db->get("dlmbg_dosen");
+
+		$config['base_url'] = base_url() . 'admin/kesimpulan/index/';
+		$config['total_rows'] = $tot_hal->num_rows();
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 4;
+		$config['first_link'] = 'First';
+		$config['last_link'] = 'Last';
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Prev';
+		$this->pagination->initialize($config);
+		
+		$w = $this->db->get("dlmbg_dosen",$limit,$offset);
+		
+		$hasil = "";
+		$hasil .= "<table class='table table-striped table-condensed'>
+				<thead>
+				<tr class='warning'>
+				<td width='30'><b>No.</b></td>
+				<td><b>Nama</b></td>
+				<td><b>NIP/Sertifikat</b></td>
+				<td><b>Email</b></td>
+				<td width='100'>
+				</td>
+					
+				</tr>
+				</thead>";
+				
+		foreach($w->result() as $h)
+		{
+			$hasil .= "<tr><td>".$i." </td><td>".$h->nama." </td><td>".$h->nip."/".$h->no_sertifikat." </td><td>".$h->email." </td>
+			<td>
+			<a href='".base_url()."admin/kesimpulan/detail/".$h->id_dosen."' class='btn btn-danger btn-small'>
+			<i class='icon-edit'></i> Detail
+			</a>
+			";
+			
+			$hasil .= "</td></tr>";
+			$i++;
+		}
+		
+		$hasil .= "</table>";
+		$hasil .= $this->pagination->create_links();
+		return $hasil;
+	}
+	 
 }

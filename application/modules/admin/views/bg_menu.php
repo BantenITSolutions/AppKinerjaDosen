@@ -34,5 +34,7 @@
 				<li><a href="<?php echo base_url(); ?>admin/kinerja_bidang/set/kewajiban"><i class="icon icon-inbox"></i> <span>Kewajiban Khusus Profesor</span></a></li>
 				<li><a href="<?php echo base_url(); ?>admin/cetak"><i class="icon icon-print"></i> <span>Cetak Form</span></a></li>
 				<li><a href="<?php echo base_url(); ?>admin/kesimpulan"><i class="icon icon-share"></i> <span>Kesimpulan</span></a></li>
+				<li><a href="<?php echo base_url(); ?>admin/universitas"><i class="icon icon-share"></i> <span>Data Universitas</span></a></li>
+				<li><a href="<?php echo base_url(); ?>admin/fakultas"><i class="icon icon-share"></i> <span>Data Fakultas</span></a></li>
 			</ul>
 		</div>
