@@ -753,6 +753,51 @@ class app_global_admin_model extends CI_Model {
 		$hasil .= $this->pagination->create_links();
 		return $hasil;
 	}
+	 
+	public function generate_rekap_fakultas()
+	{
+		$hasil="";
+		
+		$this->db->select("*")->join("dlmbg_universitas","dlmbg_universitas.id_universitas=dlmbg_fakultas.id_universitas");
+		$w = $this->db->get("dlmbg_fakultas");
+		
+		$hasil .= "<table class='table table-striped table-condensed'>
+					<thead>
+					<tr>
+					<th>No.</th>
+					<th>Nama</th>
+					<th>Universitas</th>
+					<th>Nama Dekan</th>
+					<th>NIP Dekan</th>
+					<th>Tahun Akademik</th>
+					<th>Kota</th>
+					<th>TGL Cetak</th>
+					<th>Sebutan PT</th>
+					<th>Sebutan Fakultas</th>
+					<th>Sebutan Dekan</th>
+					</tr>
+					</thead>";
+		$i = 1;
+		foreach($w->result() as $h)
+		{
+			$hasil .= "<tr>
+					<td>".$i."</td>
+					<td>".$h->nama_fakultas."</td>
+					<td>".$h->nama."</td>
+					<td>".$h->nama_dekan."</td>
+					<td>".$h->nip_dekan."</td>
+					<td>".$h->tahun_akademik."</td>
+					<td>".$h->kota."</td>
+					<td>".$h->tgl_cetak."</td>
+					<td>".$h->sebutan_pt."</td>
+					<td>".$h->sebutan_fakultas."</td>
+					<td>".$h->sebutan_dekan."</td>
+					</tr>";
+			$i++;
+		}
+		$hasil .= '</table>';
+		return $hasil;
+	}
 
 	public function generate_index_dosen_kesimpulan($limit,$offset)
 	{

@@ -15,6 +15,7 @@
 							<div class="widget-content nopadding">
 							
 								<div class="well">
+									<a href="<?php echo base_url(); ?>admin/fakultas/rekap" class="btn btn-sucess">Print Rekap Fakultas</a>
 									<?php echo $data_retrieve; ?>
 								</div>							
 							</div>

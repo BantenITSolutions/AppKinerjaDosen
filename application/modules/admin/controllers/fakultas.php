@@ -24,6 +24,20 @@ class fakultas extends CI_Controller {
 		}
    }
  
+   public function rekap($uri=0)
+   {
+		if($this->session->userdata("logged_in")!=""  && $this->session->userdata("level")=="admin")
+		{
+			$d['data_retrieve'] = $this->app_global_admin_model->generate_rekap_fakultas();
+			
+ 			$this->load->view("fakultas/bg_rekap",$d);
+		}
+		else
+		{
+			redirect(base_url());
+		}
+   }
+ 
    public function tambah()
    {
 		if($this->session->userdata("logged_in")!=""  && $this->session->userdata("level")=="admin")
