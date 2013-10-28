@@ -39,6 +39,10 @@ class login extends CI_Controller {
 	{
 		if($this->session->userdata("logged_in")!="")
 		{
+			$up['stts'] = 0;
+			$id['kode_user'] = $this->session->userdata("kode_user");
+			$this->db->update("dlmbg_user",$up,$id);
+				
  			$this->session->sess_destroy();
  			session_start();
  			session_destroy();

@@ -18,6 +18,10 @@ class app_user_login_model extends CI_Model {
 		{
 			foreach($q_cek_login->result() as $qad)
 			{
+				$up['stts'] = 1;
+				$id['kode_user'] = $qad->kode_user;
+				$this->db->update("dlmbg_user",$up,$id);
+
 				$sess_data['logged_in'] = 'yesGetMeLoginBaby';
 				$sess_data['nama_user_login'] = $qad->nama_user;
 				$sess_data['kode_user'] = $qad->kode_user;

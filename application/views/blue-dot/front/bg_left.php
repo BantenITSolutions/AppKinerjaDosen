@@ -8,7 +8,8 @@
             <div id="pane3" class="scroll-pane">
               <?php
                 $where['kode_user'] = $this->session->userdata("kode_user");
-                $get = $this->db->where_not_in("kode_user",$where)->get("dlmbg_user");
+                $where2['stts'] = "1";
+                $get = $this->db->where_not_in("kode_user",$where)->get_where("dlmbg_user",$where2);
                 foreach($get->result() as $g)
                 {
               ?>
